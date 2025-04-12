@@ -5,7 +5,9 @@ server:
 spring:
   application:
     name: project
-
   data:
     mongodb:
       uri: mongodb://localhost:27017/test
+    redis:
+      host: localhost
+      port: 6379
