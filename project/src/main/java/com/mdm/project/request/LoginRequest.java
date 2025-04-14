@@ -1,4 +1,4 @@
-package com.mdm.project.dto;
+package com.mdm.project.request;
 import lombok.Data;
 
 @Data

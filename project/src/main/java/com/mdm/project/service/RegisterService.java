@@ -7,6 +7,8 @@ import com.mdm.project.utils.UsernameGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 
 @Service
 public class RegisterService {
@@ -25,6 +27,7 @@ public class RegisterService {
             String encryptedPass = passwordEncoder.encode(registerRequest.password());
 
             UserEntity userEntity = new UserEntity();
+            userEntity.setCustomerId(UUID.randomUUID().toString());
             userEntity.setCustomerPhone(registerRequest.phoneNumber());
             userEntity.setPassword(encryptedPass);
             userEntity.setCustomerName(UsernameGenerator.generateUsername(8));
