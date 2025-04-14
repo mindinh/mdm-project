@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserCollectionRepository extends MongoRepository<UserCollection, String> {
 
-
+    Optional<UserCollection> findByUsername(String username);
     Optional<UserCollection> findByCustomerId(String id);
 
     void deleteByCustomerId(String customerId);
