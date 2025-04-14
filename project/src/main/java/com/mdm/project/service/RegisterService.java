@@ -30,7 +30,7 @@ public class RegisterService {
             userEntity.setCustomerId(UUID.randomUUID().toString());
             userEntity.setCustomerPhone(registerRequest.phoneNumber());
             userEntity.setPassword(encryptedPass);
-            userEntity.setCustomerName(UsernameGenerator.generateUsername(8));
+            userEntity.setUsername(UsernameGenerator.generateUsername(8));
 
             userRepository.save(userEntity);
         } catch (Exception e) {

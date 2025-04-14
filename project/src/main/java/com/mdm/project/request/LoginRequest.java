@@ -1,8 +1,14 @@
 package com.mdm.project.request;
-import lombok.Data;
 
-@Data
-public class LoginRequest {
-    private String username;
-    private String password;
-}
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record LoginRequest (
+
+        @NotBlank(message = "Phone number must not be blank") @NotNull(message = "Phone number must not be null")
+        String phoneNumber,
+
+        @NotBlank(message = "Password must not be blank") @NotNull(message = "Password must not be null")
+        String password
+) {}

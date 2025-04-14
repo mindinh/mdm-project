@@ -30,7 +30,6 @@ public class UserEntity {
     private String customerAvatar;
     @Indexed(unique = true)
     private String username;
-    private String password;
     private List<AddressEntity> customerAddress;
     private List<CreditCardEntity> customerCards;
 }

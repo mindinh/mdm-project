@@ -12,4 +12,6 @@ public interface UserCollectionRepository extends MongoRepository<UserEntity, St
     Optional<UserEntity> findByCustomerId(String id);
     Optional<UserEntity> findByUsername(String username);
     void deleteByCustomerId(String customerId);
+
+    Optional<UserEntity> findByCustomerPhone(String s);
 }
