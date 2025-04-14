@@ -7,6 +7,7 @@ import com.mdm.project.repository.UserCollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -19,9 +20,6 @@ public class AuthService {
 
     public UserEntity register(RegisterRequest request) {
         // Kiểm tra
-        if (request.getCustomerId() == null || request.getCustomerId().isEmpty()) {
-            throw new RuntimeException("Customer ID is required");
-        }
         if (request.getName() == null || request.getName().isEmpty()) {
             throw new RuntimeException("Name is required");
         }
@@ -43,7 +41,7 @@ public class AuthService {
 
         // Tạo user
         UserEntity user = new UserEntity();
-        user.setCustomerId(request.getCustomerId());
+        user.setCustomerId(UUID.randomUUID().toString()); // Tự sinh customerId
         user.setCustomerName(request.getName());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
