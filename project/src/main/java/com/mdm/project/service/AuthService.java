@@ -2,7 +2,7 @@ package com.mdm.project.service;
 
 import com.mdm.project.dto.LoginRequest;
 import com.mdm.project.dto.RegisterRequest;
-import com.mdm.project.entity.UserCollection;
+import com.mdm.project.entity.UserEntity;
 import com.mdm.project.repository.UserCollectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +17,7 @@ public class AuthService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserCollection register(RegisterRequest request) {
+    public UserEntity register(RegisterRequest request) {
         // Kiểm tra
         if (request.getCustomerId() == null || request.getCustomerId().isEmpty()) {
             throw new RuntimeException("Customer ID is required");
@@ -42,16 +42,16 @@ public class AuthService {
 
 
         // Tạo user
-        UserCollection user = new UserCollection();
+        UserEntity user = new UserEntity();
         user.setCustomerId(request.getCustomerId());
-        user.setName(request.getName());
+        user.setCustomerName(request.getName());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         return userRepository.save(user);
     }
 
-    public UserCollection login(LoginRequest request) {
+    public UserEntity login(LoginRequest request) {
         // Kiểm tra thủ công
         if (request.getUsername() == null || request.getUsername().isEmpty()) {
             throw new RuntimeException("Username is required");
@@ -60,7 +60,7 @@ public class AuthService {
             throw new RuntimeException("Password is required");
         }
 
-        UserCollection user = userRepository.findByUsername(request.getUsername())
+        UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
