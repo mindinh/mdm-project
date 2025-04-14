@@ -20,6 +20,10 @@ import java.util.List;
 @EnableWebSecurity // allow configuring security
 public class SecurityConfig {
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

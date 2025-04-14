@@ -22,6 +22,7 @@ public class UserEntity {
     private String customerEmail;
     private String customerPhone;
     private String customerGender;
+    private String password;
     private String customerDOB;
     private String customerAvatar;
     private List<AddressEntity> customerAddress;
