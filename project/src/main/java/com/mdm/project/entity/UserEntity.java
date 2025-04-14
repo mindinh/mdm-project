@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -14,6 +15,8 @@ import java.util.List;
 @Document(collection = "users")
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
 public class UserEntity {
     @Id
     private String id;
@@ -25,8 +28,9 @@ public class UserEntity {
     private String password;
     private String customerDOB;
     private String customerAvatar;
+    @Indexed(unique = true)
+    private String username;
+    private String password;
     private List<AddressEntity> customerAddress;
     private List<CreditCardEntity> customerCards;
-
-
 }
