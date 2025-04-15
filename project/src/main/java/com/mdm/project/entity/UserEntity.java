@@ -1,22 +1,16 @@
 package com.mdm.project.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Document(collection = "users")
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Getter
-@Setter
 public class UserEntity {
     @Id
     private String id;
