@@ -1,9 +1,10 @@
 package com.mdm.project.controller;
 
-import com.mdm.project.request.LoginRequest;
+
 import com.mdm.project.entity.UserEntity;
 import com.mdm.project.service.LoginService;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,11 @@ public class LoginController {
 
 
     @PostMapping()
-    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginRequest request) {
-        UserEntity user = loginService.login(request);
+    public ResponseEntity<UserEntity> login(@RequestParam @NotBlank(message = "Phone number must not be blank") @NotNull(message = "Phone number must not be null")
+                                                String phoneNumber,
+                                            @RequestParam@NotBlank(message = "Password must not be blank") @NotNull(message = "Password must not be null")
+                                                String password) {
+        UserEntity user = loginService.login(phoneNumber, password);
         return ResponseEntity.ok(user);
     }
 }
