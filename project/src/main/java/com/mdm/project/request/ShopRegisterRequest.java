@@ -16,11 +16,16 @@ public record ShopRegisterRequest (
         )
         String name,
         @Valid
-        AddressEntity address,
+        AddressEntity shopAddress,
         @NotBlank(message = "Email must not be blank")
         String email,
         @NotBlank(message = "Mobile number must not be blank")
         String mobileNumber,
-        List<ShipMethod> shipMethodList
-
+        List<ShipMethod> shipMethodList,
+        @Valid
+        AddressEntity businessAddress,
+        @NotBlank(message = "Login to your account is required")
+        String ownerId,
+        @NotBlank(message = "Tax number must not be blank")
+        String taxNo
 ) {}
