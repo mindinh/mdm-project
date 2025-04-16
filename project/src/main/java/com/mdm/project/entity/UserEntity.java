@@ -14,6 +14,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     private String id;
+    @Indexed(unique = true)
     private String customerId;
     private String customerName;
     private String customerEmail;
@@ -22,7 +23,6 @@ public class UserEntity {
     private String password;
     private String customerDOB;
     private String customerAvatar;
-    @Indexed(unique = true)
     private String username;
     private List<AddressEntity> customerAddress;
     private List<CreditCardEntity> customerCards;

@@ -1,12 +1,14 @@
 package com.mdm.project.service;
 
 import com.mdm.project.entity.UserEntity;
+import com.mdm.project.exception.UserAlreadyExistException;
 import com.mdm.project.repository.UserCollectionRepository;
 import com.mdm.project.request.RegisterRequest;
 import com.mdm.project.utils.UsernameGenerator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -22,8 +24,11 @@ public class RegisterService {
     }
 
     public void register(RegisterRequest registerRequest) {
-        try {
-
+        Optional<UserEntity> user = userRepository.findByCustomerPhone(registerRequest.phoneNumber());
+        if (user.isPresent()) {
+            throw new UserAlreadyExistException("User with phone number " + registerRequest.phoneNumber() + " already exists");
+        }
+        else {
             String encryptedPass = passwordEncoder.encode(registerRequest.password());
 
             UserEntity userEntity = new UserEntity();
@@ -33,8 +38,6 @@ public class RegisterService {
             userEntity.setUsername(UsernameGenerator.generateUsername(8));
 
             userRepository.save(userEntity);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
         }
 
 
