@@ -23,5 +23,8 @@ public class ProductEntity {
     private List<Category> productCategories;
     private String brand;
     private List<ProductVariant> productVariants;
+    private Double productPrice;
     private String productImg;
+    private int productQuantity;
+
 }
