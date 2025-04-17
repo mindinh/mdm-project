@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Category {
-    private int id;
+    private String id;
     @NotBlank(message = "Category name must be included")
     private String name;
 
