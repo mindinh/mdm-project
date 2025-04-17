@@ -2,11 +2,17 @@ package com.mdm.project.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mdm.project.dto.ProductDto;
 import com.mdm.project.entity.Category;
 import com.mdm.project.entity.ProductEntity;
 import com.mdm.project.entity.ProductVariant;
+import com.mdm.project.exception.ResourceNotFoundException;
+import com.mdm.project.mapper.ProductMapper;
 import com.mdm.project.repository.ProductCollectionRepository;
 import com.mdm.project.request.ProductInsertRequest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +27,11 @@ public class ProductService {
         this.objectMapper = objectMapper;
         this.productRepository = productRepository;
         this.fileService = fileService;
+    }
+
+    public List<ProductDto> findAllProducts(int pageSize, int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Direction.fromString("asc"), "id"));
+        return productRepository.findAll(pageable).stream().map(ProductMapper::mapToDto).toList();
     }
 
     public void insertProduct(ProductInsertRequest request) {
@@ -51,4 +62,14 @@ public class ProductService {
 
 
     }
+
+    public List<ProductDto> findByProductName(String productName) {
+        List<ProductEntity> productList = productRepository.findByProductNameContainingIgnoreCase(productName);
+        if (productList.isEmpty()) {
+            throw new ResourceNotFoundException("Product", "product name", productName);
+        }
+
+        return productList.stream().map(ProductMapper::mapToDto).toList();
+    }
+
 }
