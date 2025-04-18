@@ -9,7 +9,7 @@ public record RegisterRequest (
 
     @NotBlank(message = "Phone number must not be blank")
     @Pattern(regexp = "\\d{10}", message = "Phone number must be exactly 10 digits")
-    String phoneNumber,
+    String phone,
 
     @NotBlank(message = "Password can not be blank")
     @Pattern(

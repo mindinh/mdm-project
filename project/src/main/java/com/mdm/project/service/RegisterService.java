@@ -24,16 +24,16 @@ public class RegisterService {
     }
 
     public void register(RegisterRequest registerRequest) {
-        Optional<UserEntity> user = userRepository.findByCustomerPhone(registerRequest.phoneNumber());
+        Optional<UserEntity> user = userRepository.findByCustomerPhone(registerRequest.phone());
         if (user.isPresent()) {
-            throw new UserAlreadyExistException("User with phone number " + registerRequest.phoneNumber() + " already exists");
+            throw new UserAlreadyExistException("User with phone number " + registerRequest.phone() + " already exists");
         }
         else {
             String encryptedPass = passwordEncoder.encode(registerRequest.password());
 
             UserEntity userEntity = new UserEntity();
             userEntity.setCustomerId(UUID.randomUUID().toString());
-            userEntity.setCustomerPhone(registerRequest.phoneNumber());
+            userEntity.setCustomerPhone(registerRequest.phone());
             userEntity.setPassword(encryptedPass);
             userEntity.setUsername(UsernameGenerator.generateUsername(8));
 
