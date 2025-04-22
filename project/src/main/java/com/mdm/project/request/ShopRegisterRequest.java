@@ -10,10 +10,6 @@ import java.util.List;
 
 public record ShopRegisterRequest (
         @NotBlank(message = "Shop Name must not be blank")
-        @Pattern(
-                regexp = "^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{10,30}$",
-                message = "Shop name must be 10-30 characters long"
-        )
         String name,
         @Valid
         AddressEntity shopAddress,
