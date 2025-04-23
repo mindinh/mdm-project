@@ -6,6 +6,7 @@ import com.mdm.project.exception.ResourceNotFoundException;
 import com.mdm.project.exception.UserAlreadyExistException;
 import com.mdm.project.mapper.UsersCollectionMapper;
 import com.mdm.project.repository.UserCollectionRepository;
+import com.mdm.project.request.UserInsertRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,12 @@ import java.util.Optional;
 @Service
 public class UserCollectionService {
 
-    private UserCollectionRepository userCollectionRepository;
-    public UserCollectionService(UserCollectionRepository userCollectionRepository) {
+    private final UserCollectionRepository userCollectionRepository;
+    private final RedisIdGenerator idGenerator;
+
+    public UserCollectionService(UserCollectionRepository userCollectionRepository, RedisIdGenerator idGenerator) {
         this.userCollectionRepository = userCollectionRepository;
+        this.idGenerator = idGenerator;
     }
 
     public List<UserEntity> getAllUsers() {
@@ -33,12 +37,19 @@ public class UserCollectionService {
 
     }
 
-    public boolean addUser(UserCollectionDto user) {
-        Optional<UserEntity> userCollection = userCollectionRepository.findByCustomerId(user.getId());
+    public boolean addUser(UserInsertRequest request) {
+        Optional<UserEntity> userCollection = userCollectionRepository.findByCustomerPhone(request.getPhoneNumber());
         if (userCollection.isPresent()) {
-            throw new UserAlreadyExistException("UserId " + user.getId() + " already exists");
+            throw new UserAlreadyExistException("User Phone Number " + request.getPhoneNumber() + " already exists");
         }
-        UserEntity newUser = UsersCollectionMapper.mapToEntity(user);
+        UserEntity newUser = new UserEntity();
+        newUser.setCustomerId(idGenerator.getNextIdWithPrefix("user", "U"));
+        newUser.setCustomerPhone(request.getPhoneNumber());
+        newUser.setCustomerName(request.getName());
+        newUser.setCustomerEmail(request.getEmail());
+        newUser.setPassword(request.getPassword());
+        newUser.setCustomerGender(request.getGender());
+        newUser.setCustomerDOB(request.getDOB());
 
         userCollectionRepository.save(newUser);
 
