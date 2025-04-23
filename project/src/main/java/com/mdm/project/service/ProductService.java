@@ -26,12 +26,15 @@ public class ProductService {
     private final ProductCollectionRepository productRepository;
     private final ProductNodeRepository productNodeRepository;
     private final CategoryNodeRepository categoryNodeRepository;
-    public ProductService(ProductCollectionRepository productRepository, FileService fileService, ObjectMapper objectMapper, ProductNodeRepository productNodeRepository, CategoryNodeRepository categoryNodeRepository) {
+    private final RedisIdGenerator idGenerator;
+    public ProductService(ProductCollectionRepository productRepository, FileService fileService, ObjectMapper objectMapper, ProductNodeRepository productNodeRepository, CategoryNodeRepository categoryNodeRepository,
+                          RedisIdGenerator idGenerator) {
         this.objectMapper = objectMapper;
         this.productRepository = productRepository;
         this.fileService = fileService;
         this.productNodeRepository = productNodeRepository;
         this.categoryNodeRepository = categoryNodeRepository;
+        this.idGenerator = idGenerator;
     }
 
     public List<ProductDto> findAllProducts(int pageSize, int pageNumber) {
@@ -49,7 +52,8 @@ public class ProductService {
             ShopEntity shop = objectMapper.readValue(request.getShopInfo(), ShopEntity.class);
 
             ProductEntity productEntity = new ProductEntity();
-            productEntity.setProductId(UUID.randomUUID().toString());
+//            productEntity.setProductId(UUID.randomUUID().toString());
+            productEntity.setProductId(idGenerator.getNextIdWithPrefix("product", "P"));
             productEntity.setProductName(request.getProductName());
             productEntity.setProductDescription(request.getProductDescription());
             productEntity.setBrand(request.getBrand());
