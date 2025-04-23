@@ -51,6 +51,7 @@ public class OrderService {
 
         order.setTotal(totalPrice);
 
+
         try {
             String productJson = objectMapper.writeValueAsString(request.getProducts());
             String addressJson = objectMapper.writeValueAsString(request.getAddress());

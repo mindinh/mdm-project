@@ -3,7 +3,6 @@ package com.mdm.project.request;
 
 import com.mdm.project.entity.AddressEntity;
 import com.mdm.project.entity.CartItem;
-import com.mdm.project.entity.ProductEntity;
 import com.mdm.project.entity.ShipMethod;
 import lombok.Data;
 
