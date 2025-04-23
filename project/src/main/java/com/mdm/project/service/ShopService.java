@@ -1,7 +1,9 @@
 package com.mdm.project.service;
 
 
+import com.mdm.project.dto.ShopDto;
 import com.mdm.project.entity.ShopEntity;
+import com.mdm.project.exception.ResourceNotFoundException;
 import com.mdm.project.repository.ShopCollectionRepository;
 import com.mdm.project.request.ShopRegisterRequest;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,19 @@ public class ShopService {
         shopEntity.setUserId(request.ownerId());
 
         shopRepository.save(shopEntity);
+    }
+
+    public ShopDto findByOwnerId(String userId) {
+        ShopEntity shopEntity = shopRepository.findByUserId(userId).orElseThrow(
+                () -> new ResourceNotFoundException("Shop", "owner id", userId)
+        );
+
+        ShopDto shopDto = new ShopDto();
+        shopDto.setShopId(shopEntity.getShopId());
+        shopDto.setShopName(shopEntity.getShopName());
+
+        return shopDto;
+
     }
 
 }
