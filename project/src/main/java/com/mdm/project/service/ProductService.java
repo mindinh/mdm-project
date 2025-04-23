@@ -2,6 +2,7 @@ package com.mdm.project.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mdm.project.dto.ProductDetailsDto;
 import com.mdm.project.dto.ProductDto;
 import com.mdm.project.entity.*;
 import com.mdm.project.exception.ResourceNotFoundException;
@@ -100,4 +101,20 @@ public class ProductService {
         return productList.stream().map(ProductMapper::mapToDto).toList();
     }
 
+    public ProductDetailsDto findByProductId(String prodId) {
+        ProductEntity productEntity = productRepository.findByProductId(prodId).orElseThrow(
+                () -> new ResourceNotFoundException("Product", "id", prodId)
+        );
+        ProductDetailsDto productDetailsDto = new ProductDetailsDto();
+        productDetailsDto.setId(productEntity.getProductId());
+        productDetailsDto.setName(productEntity.getProductName());
+        productDetailsDto.setDescription(productEntity.getProductDescription());
+        productDetailsDto.setCategory(productEntity.getProductCategories());
+        productDetailsDto.setBrand(productEntity.getBrand());
+        productDetailsDto.setVariants(productEntity.getProductVariants());
+        productDetailsDto.setShopName(productEntity.getShop().getShopName());
+        productDetailsDto.setImage("http://localhost:8080" + productEntity.getProductImg());
+
+        return productDetailsDto;
+    }
 }
