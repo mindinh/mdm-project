@@ -26,5 +26,6 @@ public class ProductInsertRequest {
     private String brand;
 
     private String productVariants;
+    private String shopInfo;
 
 }
