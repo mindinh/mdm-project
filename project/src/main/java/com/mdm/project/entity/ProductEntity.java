@@ -26,5 +26,6 @@ public class ProductEntity {
     private Double productPrice;
     private String productImg;
     private int productQuantity;
+    private ShopEntity shop;
 
 }

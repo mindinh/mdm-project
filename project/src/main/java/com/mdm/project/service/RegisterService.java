@@ -15,12 +15,14 @@ import java.util.UUID;
 @Service
 public class RegisterService {
 
-    private UserCollectionRepository userRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserCollectionRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final RedisIdGenerator idGenerator;
 
-    public RegisterService(UserCollectionRepository userRepository, PasswordEncoder passwordEncoder) {
+    public RegisterService(UserCollectionRepository userRepository, PasswordEncoder passwordEncoder, RedisIdGenerator idGenerator) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.idGenerator = idGenerator;
     }
 
     public void register(RegisterRequest registerRequest) {
@@ -32,7 +34,8 @@ public class RegisterService {
             String encryptedPass = passwordEncoder.encode(registerRequest.password());
 
             UserEntity userEntity = new UserEntity();
-            userEntity.setCustomerId(UUID.randomUUID().toString());
+//            userEntity.setCustomerId(UUID.randomUUID().toString());
+            userEntity.setCustomerId(idGenerator.getNextIdWithPrefix("user", "U"));
             userEntity.setCustomerPhone(registerRequest.phone());
             userEntity.setPassword(encryptedPass);
             userEntity.setUsername(UsernameGenerator.generateUsername(8));

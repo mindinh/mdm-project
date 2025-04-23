@@ -16,9 +16,11 @@ public class OrderService {
 
     private final OrderTableRepository orderRepository;
     private final ObjectMapper objectMapper;
-    public OrderService(OrderTableRepository orderRepository, ObjectMapper objectMapper) {
+    private final RedisIdGenerator idGenerator;
+    public OrderService(OrderTableRepository orderRepository, ObjectMapper objectMapper, RedisIdGenerator idGenerator) {
         this.orderRepository = orderRepository;
         this.objectMapper = objectMapper;
+        this.idGenerator = idGenerator;
     }
 
     public void createOrder(OrderRequest request) {
@@ -28,7 +30,8 @@ public class OrderService {
         key.setOrderTime(Instant.now());
 
         order.setKey(key);
-        order.setOrderId(UUID.randomUUID().toString());
+//        order.setOrderId(UUID.randomUUID().toString());
+        order.setOrderId(idGenerator.getNextIdWithPrefix("order", "O"));
         order.setStatus("PENDING");
         order.setPaymentMethod(request.getPaymentMethod());
 
