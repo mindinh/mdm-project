@@ -30,6 +30,7 @@ public class OrderTable {
     private OrderKey key;
 
     private String orderId;
+    private String shopName;
     private String status;
     private Double total;
     private String address;
