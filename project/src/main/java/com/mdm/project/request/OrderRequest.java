@@ -2,7 +2,7 @@ package com.mdm.project.request;
 
 
 import com.mdm.project.entity.AddressEntity;
-import com.mdm.project.entity.ProductEntity;
+import com.mdm.project.entity.CartItem;
 import com.mdm.project.entity.ShipMethod;
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderRequest {
     private String userId;
     private AddressEntity address;
-    private List<ProductEntity> products;
+    private List<CartItem> products;
     private ShipMethod shipMethod;
     private String paymentMethod;
     private Double totalPrice;

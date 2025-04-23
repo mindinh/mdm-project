@@ -34,7 +34,7 @@ public class OrderService {
         order.setOrderId(idGenerator.getNextIdWithPrefix("order", "O"));
         order.setStatus("PENDING");
         order.setPaymentMethod(request.getPaymentMethod());
-
+        order.setTotal(request.getTotalPrice());
         try {
             String productJson = objectMapper.writeValueAsString(request.getProducts());
             String addressJson = objectMapper.writeValueAsString(request.getAddress());
