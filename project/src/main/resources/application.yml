@@ -32,4 +32,4 @@ spring:
 
 # Đường dẫn để chứa file hình sản phẩm gửi lên
 upload:
-  path: C:\Users\MINH\Desktop\images
+  path: D:\shopee\images
