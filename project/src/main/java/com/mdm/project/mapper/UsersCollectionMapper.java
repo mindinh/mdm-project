@@ -9,6 +9,7 @@ public class UsersCollectionMapper {
         UserCollectionDto dto = new UserCollectionDto();
         dto.setId(userEntity.getCustomerId());
         dto.setName(userEntity.getCustomerName());
+        dto.setUsername(userEntity.getUsername());
         dto.setDOB(userEntity.getCustomerDOB());
         dto.setEmail(userEntity.getCustomerEmail());
         dto.setPhoneNumber(userEntity.getCustomerPhone());
