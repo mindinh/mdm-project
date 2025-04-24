@@ -20,6 +20,9 @@ public class FileService {
     @Value("${upload.path}")
     private String uploadPath;
 
+    @Value("${upload.avatar}")
+    private String uploadAvatar;
+
     public String copyFile(MultipartFile file) {
         String imgUrl = "";
         try {
@@ -30,6 +33,34 @@ public class FileService {
 
             Path filePath = root.resolve(file.getOriginalFilename());
             imgUrl = "/images/" + file.getOriginalFilename();
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+        catch (Exception e) {
+            throw new FileUploadException("File upload failed " + e.getMessage());
+        }
+
+        return imgUrl;
+    }
+
+    public String copyAvatarFile(MultipartFile file, String userId) {
+        String imgUrl = "";
+        try {
+            Path root = Paths.get(uploadAvatar);
+            if (!Files.exists(root)) {
+                Files.createDirectory(root);
+            }
+
+            String originalName = file.getOriginalFilename();
+            String extension = "";
+
+            if (originalName != null && originalName.contains(".")) {
+                extension = originalName.substring(originalName.lastIndexOf("."));
+            }
+
+            String newFileName = "avatar_" + userId + extension;
+
+            Path filePath = root.resolve(newFileName);
+            imgUrl = "/avatars/" + newFileName;
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
         catch (Exception e) {

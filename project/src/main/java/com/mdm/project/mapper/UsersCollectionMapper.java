@@ -14,7 +14,7 @@ public class UsersCollectionMapper {
         dto.setEmail(userEntity.getCustomerEmail());
         dto.setPhoneNumber(userEntity.getCustomerPhone());
         dto.setGender(userEntity.getCustomerGender());
-        dto.setAvatar(userEntity.getCustomerAvatar());
+        dto.setAvatar(userEntity.getCustomerAvatar() == null ? "" : "http://localhost:8080" + userEntity.getCustomerAvatar());
         dto.setAddresses(userEntity.getCustomerAddress());
         dto.setCards(userEntity.getCustomerCards());
         return dto;

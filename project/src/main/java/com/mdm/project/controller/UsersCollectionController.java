@@ -4,9 +4,11 @@ import com.mdm.project.dto.ErrorResponseDto;
 import com.mdm.project.dto.ResponseDto;
 import com.mdm.project.dto.UserCollectionDto;
 import com.mdm.project.mapper.UsersCollectionMapper;
+import com.mdm.project.request.UpdateUserRequest;
 import com.mdm.project.request.UserInsertRequest;
 import com.mdm.project.service.UserCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,9 +47,9 @@ public class UsersCollectionController {
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable String id, @RequestBody UserCollectionDto userCollectionDto) {
-        boolean isSuccess = userCollectionService.updateUser(id, userCollectionDto);
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> updateUser(@PathVariable String id, @ModelAttribute UpdateUserRequest request) {
+        boolean isSuccess = userCollectionService.updateUser(id, request);
         if (!isSuccess) {
             return ResponseEntity.internalServerError().body(new ResponseDto("500", "Internal Server Error"));
         }
