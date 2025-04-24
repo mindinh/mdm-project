@@ -33,3 +33,4 @@ spring:
 # Đường dẫn để chứa file hình sản phẩm gửi lên
 upload:
   path: D:\shopee\images
+  avatar: D:\shopee\avatars
