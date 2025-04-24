@@ -121,9 +121,10 @@ public class UserCollectionService {
                 throw new RuntimeException(e);
             }
         }
-
-        String filePath = fileService.copyAvatarFile(request.getAvatarImg(), id);
-        userEntity.setCustomerAvatar(filePath);
+        if (request.getAvatarImg() != null) {
+            String filePath = fileService.copyAvatarFile(request.getAvatarImg(), id);
+            userEntity.setCustomerAvatar(filePath);
+        }
 
         userCollectionRepository.save(userEntity);
 
