@@ -19,5 +19,6 @@ public class ProductDetailsDto {
     private List<ProductVariant> variants;
     private String image;
     private String shopName;
+    private List<ProductDto> relatedProducts;
 
 }
