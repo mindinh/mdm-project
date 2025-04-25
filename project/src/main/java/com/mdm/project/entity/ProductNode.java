@@ -14,6 +14,8 @@ public class ProductNode {
     @Id
     private String id;
     private String name;
+    private double price;
+    private String image;
 
     @Relationship(type = "BELONGS_TO", direction = Relationship.Direction.OUTGOING)
     private CategoryNode category;

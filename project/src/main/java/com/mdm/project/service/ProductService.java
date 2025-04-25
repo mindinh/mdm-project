@@ -70,6 +70,9 @@ public class ProductService {
             ProductNode productNode = new ProductNode();
             productNode.setId(productEntity.getProductId());
             productNode.setName(request.getProductName());
+            productNode.setPrice(variants.getFirst().getPrice());
+            productNode.setImage(filePath);
+
             for (Category category : categories) {
                 Optional<CategoryNode> node = categoryNodeRepository.findByCode(category.getId());
                 if (node.isEmpty()) {
@@ -114,6 +117,20 @@ public class ProductService {
         productDetailsDto.setVariants(productEntity.getProductVariants());
         productDetailsDto.setShopName(productEntity.getShop().getShopName());
         productDetailsDto.setImage("http://localhost:8080" + productEntity.getProductImg());
+
+        List<ProductDto> relatedProducts = productNodeRepository.findRelatedProductsByHierarchy(prodId).stream().map(
+                (item) -> {
+                    ProductDto productDto = new ProductDto();
+                    productDto.setId(item.getId());
+                    productDto.setProdName(item.getName());
+                    productDto.setProdPrice(item.getPrice());
+                    productDto.setProdImg(item.getImage());
+
+                    return productDto;
+                }
+        ).toList();
+
+        productDetailsDto.setRelatedProducts(relatedProducts);
 
         return productDetailsDto;
     }
